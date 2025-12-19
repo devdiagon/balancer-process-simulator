@@ -1,0 +1,11 @@
+// Iniciar servidores
+sudo ip netns exec ns_isp1 python3 -m http.server 80
+sudo ip netns exec ns_isp2 python3 -m http.server 80
+
+// Realizar peticiones al balanceador
+sudo ip netns exec ns_client ab -n 1000 -c 20 http://10.0.0.1/
+
+// Visualizar cada ISP con iftop
+sudo ip netns exec ns_lb iftop -i veth_lb_out1
+sudo ip netns exec ns_lb iftop -i veth_lb_out2
+
